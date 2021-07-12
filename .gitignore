@@ -24,3 +24,6 @@
 /configure.log
 
 .DS_Store
+
+zig-cache/
+zig-out/
