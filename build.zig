@@ -1,7 +1,5 @@
 const std = @import("std");
 
-const buildZ = @import("build-lib.zig");
-
 pub fn build(b: *std.build.Builder) void
 {
     const target = b.standardTargetOptions(.{});
@@ -9,7 +7,34 @@ pub fn build(b: *std.build.Builder) void
     const lib = b.addStaticLibrary("zlib", null);
     lib.setTarget(target);
     lib.setBuildMode(mode);
-    buildZ.addLib(lib);
     lib.linkLibC();
     lib.install();
+
+    addLib(lib);
+}
+
+pub fn addLib(step: *std.build.LibExeObjStep) void
+{
+    const cFlags = &[_][]const u8 {
+        "-DHAVE_SYS_TYPES_H=1",
+        "-DHAVE_STDINT_H=1",
+        "-DHAVE_STDDEF_H=1",
+    };
+    step.addCSourceFiles(&[_][]const u8 {
+        "adler32.c",
+        "compress.c",
+        "crc32.c",
+        "deflate.c",
+        "gzclose.c",
+        "gzlib.c",
+        "gzread.c",
+        "gzwrite.c",
+        "inflate.c",
+        "infback.c",
+        "inftrees.c",
+        "inffast.c",
+        "trees.c",
+        "uncompr.c",
+        "zutil.c",
+    }, cFlags);
 }
