@@ -10,10 +10,10 @@ pub fn build(b: *std.build.Builder) void
     lib.linkLibC();
     lib.install();
 
-    addLib(lib);
+    addLib(lib, ".");
 }
 
-pub fn addLib(step: *std.build.LibExeObjStep) void
+pub fn addLib(step: *std.build.LibExeObjStep, comptime dir: []const u8) void
 {
     const cFlags = &[_][]const u8 {
         "-DHAVE_SYS_TYPES_H=1",
@@ -21,20 +21,20 @@ pub fn addLib(step: *std.build.LibExeObjStep) void
         "-DHAVE_STDDEF_H=1",
     };
     step.addCSourceFiles(&[_][]const u8 {
-        "adler32.c",
-        "compress.c",
-        "crc32.c",
-        "deflate.c",
-        "gzclose.c",
-        "gzlib.c",
-        "gzread.c",
-        "gzwrite.c",
-        "inflate.c",
-        "infback.c",
-        "inftrees.c",
-        "inffast.c",
-        "trees.c",
-        "uncompr.c",
-        "zutil.c",
+        dir ++ "/adler32.c",
+        dir ++ "/compress.c",
+        dir ++ "/crc32.c",
+        dir ++ "/deflate.c",
+        dir ++ "/gzclose.c",
+        dir ++ "/gzlib.c",
+        dir ++ "/gzread.c",
+        dir ++ "/gzwrite.c",
+        dir ++ "/inflate.c",
+        dir ++ "/infback.c",
+        dir ++ "/inftrees.c",
+        dir ++ "/inffast.c",
+        dir ++ "/trees.c",
+        dir ++ "/uncompr.c",
+        dir ++ "/zutil.c",
     }, cFlags);
 }
